@@ -1,0 +1,7 @@
+function result = lonLat2Mercator(lon,lat)
+x=lon*20037508.34/180;
+y=log(tan(deg2rad(90+lat))*PI/360))/(PI/180);
+y=y*20037508.34/180;
+result.X=x;
+result.Y=y;
+return

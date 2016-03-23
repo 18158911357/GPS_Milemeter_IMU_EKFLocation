@@ -38,7 +38,7 @@ while 1
    if(isempty(data))
        break;
    end
-   result=BLH_XYZ(data(1,1),data(2,1),0);
+   result=lonLat2Mercator(data(2,1),data(1,1));
    gx(n)=result.X;%GPS经过坐标变换后的东向坐标，换算成米数
    gy(n)=result.Y;%GPS经过坐标变换后的北向坐标，换算成米数
    Phi(n)=deg2rad(data(3,1));%航向角
@@ -127,5 +127,5 @@ figure
 plot(x,y,'r');hold on;
 plot(ZE(1,:),ZE(2,:),'g');hold on;
 plot(XE(1,:),XE(2,:),'b');hold off;
-axis([-2.754580911695872e+06-50 -2.754580911695872e+06+50 5.223599402123080e+06-50 5.223599402123080e+06+50]),grid on;
+axis([1.351825958322876e+07-50 1.351825958322876e+07+50 3.636297153803221e+06-50 3.636297153803221e+06+50]),grid on;
 legend('真实轨迹','观测轨迹','目标滤波航迹');
