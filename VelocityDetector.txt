@@ -1,0 +1,10 @@
+[Info] 2016-03-23 12:24:17 (ViewController.m:245)-[ViewController outputAccelertion:]:lat:31.027315;lon:121.436592;heading:0;distance:1.000000
+[Info] 2016-03-23 12:24:18 (ViewController.m:245)-[ViewController outputAccelertion:]:lat:31.027316;lon:121.436592;heading:0;distance:1.000000
+[Info] 2016-03-23 12:24:19 (ViewController.m:245)-[ViewController outputAccelertion:]:lat:31.027317;lon:121.436592;heading:0;distance:1.000000
+[Info] 2016-03-23 12:24:20 (ViewController.m:245)-[ViewController outputAccelertion:]:lat:31.027318;lon:121.436592;heading:0;distance:1.000000
+[Info] 2016-03-23 12:24:21 (ViewController.m:245)-[ViewController outputAccelertion:]:lat:31.027319;lon:121.436592;heading:0;distance:1.000000
+[Info] 2016-03-23 12:24:17 (ViewController.m:245)-[ViewController outputAccelertion:]:lat:31.027320;lon:121.436592;heading:0;distance:1.000000
+[Info] 2016-03-23 12:24:18 (ViewController.m:245)-[ViewController outputAccelertion:]:lat:31.027321;lon:121.436592;heading:0;distance:1.000000
+[Info] 2016-03-23 12:24:19 (ViewController.m:245)-[ViewController outputAccelertion:]:lat:31.027322;lon:121.436592;heading:0;distance:1.000000
+[Info] 2016-03-23 12:24:20 (ViewController.m:245)-[ViewController outputAccelertion:]:lat:31.027323;lon:121.436592;heading:0;distance:1.000000
+[Info] 2016-03-23 12:24:21 (ViewController.m:245)-[ViewController outputAccelertion:]:lat:31.027324;lon:121.436592;heading:0;distance:1.000000
