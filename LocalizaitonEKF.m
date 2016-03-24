@@ -7,7 +7,7 @@
 clc;
 clear;
 T=1;
-offtime=10;
+offtime=208;
 d=0.1;
 
 close all
@@ -23,6 +23,8 @@ XE=zeros(7,N);%所有的预测值
 Ve=zeros(N,1);
 Vn=zeros(N,1);
 ZE=zeros(4,N);
+gx=zeros(N,1);
+gy=zeros(N,1);
 
 randn('state',sum(100*clock)); % 设置随机数发生器
 %%%%%%%%%%%读取文本gps值、里程计位移和航向角，并转化为直角坐标系下的坐标值%%%%%%
@@ -33,15 +35,15 @@ while 1
    if ~ischar(gpsline) break;%%%判断是否结束
    end;
    n=n+1;
-   time=sscanf(gpsline,'[Info] 2016-03-23%s(ViewController.m:%d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
-   data=sscanf(gpsline,'[Info] 2016-03-23 %*s (ViewController.m:%*d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
+   time=sscanf(gpsline,'[Info] 2016-03-24%s(ViewController.m:%d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
+   data=sscanf(gpsline,'[Info] 2016-03-24 %*s (ViewController.m:%*d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
    if(isempty(data))
        break;
    end
    result=lonLat2Mercator(data(2,1),data(1,1));
    gx(n)=result.X;%GPS经过坐标变换后的东向坐标，换算成米数
    gy(n)=result.Y;%GPS经过坐标变换后的北向坐标，换算成米数
-   Phi(n)=deg2rad(data(3,1));%航向角
+   Phi(n)=data(3,1)*pi/180;%航向角
    dd(n)=data(4,1);%某一周期的位移
    dx(n)=dd(n)*sin(Phi(n));%某一周期的东向位移
    dy(n)=dd(n)*cos(Phi(n));%某一周期的北向位移
@@ -127,5 +129,5 @@ figure
 plot(x,y,'r');hold on;
 plot(ZE(1,:),ZE(2,:),'g');hold on;
 plot(XE(1,:),XE(2,:),'b');hold off;
-axis([1.351825958322876e+07-50 1.351825958322876e+07+50 3.636297153803221e+06-50 3.636297153803221e+06+50]),grid on;
+axis([1.351834118041550e+07-50 1.351834118041550e+07+150 3.636371850130345e+06-150 3.636371850130345e+06+50]),grid on;
 legend('真实轨迹','观测轨迹','目标滤波航迹');
