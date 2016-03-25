@@ -129,7 +129,7 @@ cordinatey=ZE(2,5);
 %显示滤波轨迹
 figure
 plot(x,y,'r');hold on;
-plot(ZE(1,:),ZE(2,:),'o');hold on;
+plot(ZE(1,:),ZE(2,:),'g');hold on;
 plot(XE(1,:),XE(2,:),'b');hold off;
 axis([cordinatex-100 cordinatex+200 cordinatey-200 cordinatey+100]),grid on;
 legend('真实轨迹','观测轨迹','目标滤波航迹');
