@@ -7,7 +7,7 @@
 clc;
 clear;
 T=1;
-offtime=195;
+offtime=332;
 d=0.1;
 
 close all
@@ -28,15 +28,15 @@ gy=zeros(N,1);
 
 randn('state',sum(100*clock)); % 设置随机数发生器
 %%%%%%%%%%%读取文本gps值、里程计位移和航向角，并转化为直角坐标系下的坐标值%%%%%%
-fgps=fopen('VelocityDetector.txt','r');%%%打开文本
+fgps=fopen('VelocityDetector0325.txt','r');%%%打开文本
 n=0;
 while 1
    gpsline=fgetl(fgps);%%%读取文本指针对应的行
    if ~ischar(gpsline) break;%%%判断是否结束
    end;
    n=n+1;
-   time=sscanf(gpsline,'[Info] 2016-03-24%s(ViewController.m:%d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
-   data=sscanf(gpsline,'[Info] 2016-03-24 %*s (ViewController.m:%*d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
+   time=sscanf(gpsline,'[Info] 2016-03-25%s(ViewController.m:%d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
+   data=sscanf(gpsline,'[Info] 2016-03-25 %*s (ViewController.m:%*d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
    if(isempty(data))
        break;
    end
@@ -124,13 +124,13 @@ end
 
 randTheta=rand(1,400)';
 [x,y]=TrueRoute(T,offtime);
-cordinatex=ZE(1,1);
-cordinatey=ZE(2,1);
+cordinatex=ZE(1,5);
+cordinatey=ZE(2,5);
 %显示滤波轨迹
 figure
 plot(x,y,'r');hold on;
-plot(ZE(1,:),ZE(2,:),'g');hold on;
+plot(ZE(1,:),ZE(2,:),'o');hold on;
 plot(XE(1,:),XE(2,:),'b');hold off;
-axis([cordinatex-200 cordinatex+50 cordinatey-250 cordinatey+50]),grid on;
+axis([cordinatex-100 cordinatex+200 cordinatey-200 cordinatey+100]),grid on;
 legend('真实轨迹','观测轨迹','目标滤波航迹');
 axis equal;
