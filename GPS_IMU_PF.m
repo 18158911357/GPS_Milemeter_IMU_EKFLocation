@@ -12,7 +12,7 @@ Theta=CreateGauss(0,d,1,sensor_data);%GPS航迹和DR航迹的夹角
 ZOUT=zeros(4,outdoor_sensor_data);
 ZIN=zeros(4,indoor_sensor_data);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%读取传感器数据%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-fgps=fopen('sensor_data_0415.txt','r');%%%打开文本
+fgps=fopen('sensor_data_041518.txt','r');%%%打开文本
 
 for n=1:sensor_data
     gpsline=fgetl(fgps);%%%读取文本指针对应的行
@@ -130,7 +130,7 @@ end
 % set(gca,'FontSize',12);
 % [groundtruthx,groundtruthy]=Groud_Truth();
 % plot(groundtruthx,groundtruthy,'r');hold on;
-% plot( ZIN(1,:), ZIN(2,:), '>');hold on;
+% plot( ZIN(1,:), ZIN(2,:), 'o');hold on;
 % plot(PCenter(1,:), PCenter(2,:), 'g');hold off;
 % axis([cordinatex-100 cordinatex+200 cordinatey-200 cordinatey+100]),grid on;
 % legend('真实轨迹','观测轨迹', '粒子滤波轨迹');

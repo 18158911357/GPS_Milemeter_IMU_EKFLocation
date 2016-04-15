@@ -15,7 +15,7 @@ Theta=CreateGauss(0,d,1,sensor_data);%GPS航迹和DR航迹的夹角
 ZOUT=zeros(4,outdoor_sensor_data);
 ZIN=zeros(4,indoor_sensor_data);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%读取传感器数据%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-fgps=fopen('sensor_data_0415.txt','r');%%%打开文本
+fgps=fopen('sensor_data_041518.txt','r');%%%打开文本
 
 for n=1:sensor_data
     gpsline=fgetl(fgps);%%%读取文本指针对应的行
@@ -48,11 +48,11 @@ cordinatey=round(ZIN(2,5));
 
 [groundtruthx,groundtruthy]=Groud_Truth();
 groundtruth = [groundtruthx,groundtruthy]';
-iBeacon_IMU_location_line=iBeacon_IMU_location-groundtruth;
+iBeacon_IMU_location_line=iBeacon_IMU_location(:,2:361)-groundtruth(:,2:361);
 iBeacon_IMU_location_error=sqrt(iBeacon_IMU_location_line(1,:).^2+iBeacon_IMU_location_line(2,:).^2);
-GPS_IMU_location_line=GPS_IMU_location-groundtruth;
+GPS_IMU_location_line=GPS_IMU_location(:,2:361)-groundtruth(:,2:361);
 GPS_IMU_location_error=sqrt(GPS_IMU_location_line(1,:).^2+GPS_IMU_location_line(2,:).^2);
-Adopted_location_line=Adopted_location-groundtruth;
+Adopted_location_line=Adopted_location(:,2:361)-groundtruth(:,2:361);
 Adopted_location_error=sqrt(Adopted_location_line(1,:).^2+Adopted_location_line(2,:).^2);
 
 x_Adopted_location = zeros(1,11);
