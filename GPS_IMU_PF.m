@@ -1,10 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%程序初始化操作%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function PCenter=ParticleFilter()
 % clc;
 % clear;
 % close all;
+function PCenter = GPS_IMU_PF()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%全局变量定义%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 outdoor_sensor_data=361;
 indoor_sensor_data=0;
 sensor_data=outdoor_sensor_data+indoor_sensor_data;
@@ -13,25 +12,22 @@ Theta=CreateGauss(0,d,1,sensor_data);%GPS航迹和DR航迹的夹角
 ZOUT=zeros(4,outdoor_sensor_data);
 ZIN=zeros(4,indoor_sensor_data);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%读取传感器数据%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 fgps=fopen('sensor_data_041518.txt','r');%%%打开文本
-
 
 for n=1:sensor_data
     gpsline=fgetl(fgps);%%%读取文本指针对应的行
     if ~ischar(gpsline) break;%%%判断是否结束
     end;
     %%%%读取室内数据
-
    time=sscanf(gpsline,'[Info] 2016-04-15%s(ViewController.m:%d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f;beacon_lat:%f;beacon_lon:%f');
    data=sscanf(gpsline,'[Info] 2016-04-15 %*s (ViewController.m:%*d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f;beacon_lat:%f;beacon_lon:%f');
    if(isempty(data))
        break;
    end
-        result=lonLat2Mercator(data(6,1),data(5,1));
+        result=lonLat2Mercator(data(2,1),data(1,1));
         gx(n)=result.X;%GPS经过坐标变换后的东向坐标，换算成米数
         gy(n)=result.Y;%GPS经过坐标变换后的北向坐标，换算成米数
-        Phi(n)=(data(3,1)+90)*pi/180;%航向角>>>>>>> origin/master
+        Phi(n)=(data(3,1)+90)*pi/180;%航向角
         dd(n)=data(4,1);%某一周期的位移
         ZIN(:,n)=[gx(n),gy(n),Phi(n),dd(n)];
 end
@@ -134,7 +130,7 @@ end
 % set(gca,'FontSize',12);
 % [groundtruthx,groundtruthy]=Groud_Truth();
 % plot(groundtruthx,groundtruthy,'r');hold on;
-% plot( ZIN(1,1:127), ZIN(2,1:127), 'o');hold on;
+% plot( ZIN(1,:), ZIN(2,:), 'o');hold on;
 % plot(PCenter(1,:), PCenter(2,:), 'g');hold off;
 % axis([cordinatex-100 cordinatex+200 cordinatey-200 cordinatey+100]),grid on;
 % legend('真实轨迹','观测轨迹', '粒子滤波轨迹');

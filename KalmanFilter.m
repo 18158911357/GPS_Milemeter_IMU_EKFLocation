@@ -4,7 +4,7 @@ clear;
 close all;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%全局变量定义%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-outdoor_sensor_data=300;
+outdoor_sensor_data=370;
 indoor_sensor_data=0;
 sensor_data=outdoor_sensor_data+indoor_sensor_data;
 d=0.1;%标准差
@@ -14,25 +14,25 @@ ZOUT=zeros(4,outdoor_sensor_data);
 ZIN=zeros(4,indoor_sensor_data);
 Z=zeros(2,outdoor_sensor_data);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%读取传感器数据%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-fgps=fopen('sensor_data.txt','r');%%%打开文本
+fgps=fopen('sensor_data_0415.txt','r');%%%打开文本
 
 for n=1:sensor_data
     gpsline=fgetl(fgps);%%%读取文本指针对应的行
     if ~ischar(gpsline) break;%%%判断是否结束
     end;
-    %%%%读取室内数据
-   time=sscanf(gpsline,'[Info] 2016-03-25%s(ViewController.m:%d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
-   data=sscanf(gpsline,'[Info] 2016-03-25 %*s (ViewController.m:%*d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
+   %%%%读取室内数据
+   time=sscanf(gpsline,'[Info] 2016-04-15%s(ViewController.m:%d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f;beacon_lat:%f;beacon_lon:%f');
+   data=sscanf(gpsline,'[Info] 2016-04-15 %*s (ViewController.m:%*d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f;beacon_lat:%f;beacon_lon:%f');
    if(isempty(data))
        break;
    end
         result=lonLat2Mercator(data(2,1),data(1,1));
         gx(n)=result.X;%GPS经过坐标变换后的东向坐标，换算成米数
         gy(n)=result.Y;%GPS经过坐标变换后的北向坐标，换算成米数
-        Phi(n)=data(3,1)*pi/180;%航向角
+        Phi(n)=(data(3,1)+90)*pi/180;%航向角
         dd(n)=data(4,1);%某一周期的位移
-        dx(n)=dd(n)*sin(Phi(n))*10;%某一周期的东向位移
-        dy(n)=dd(n)*cos(Phi(n))*10;%某一周期的北向位移
+        dx(n)=dd(n)*sin(Phi(n))*4;%某一周期的东向位移
+        dy(n)=dd(n)*cos(Phi(n))*4;%某一周期的北向位移
         Ve(n)=dd(n)*sin(Phi(n));%里程计输入的东向速度，暂时用某一周期的东向位移代替
         Vn(n)=dd(n)*cos(Phi(n));%里程计输出的北向速度，暂时用某一周期的北向位移代替
         ZOUT(:,n)=[gx(n),gy(n),dx(n),dy(n)];
@@ -73,10 +73,14 @@ cordinatex=ZOUT(1,5);
 cordinatey=ZOUT(2,5);
 %显示滤波轨迹
 figure
-plot(ZOUT(1,:),ZOUT(2,:),'>');hold on;
-plot(K_location(1,:),K_location(2,:),'r');hold off;
+set(gca,'FontSize',12);
+[groundtruthx,groundtruthy]=Groud_Truth();
+plot(groundtruthx,groundtruthy,'r');hold on;
+plot(ZOUT(1,:),ZOUT(2,:),'o');hold on;
+plot(K_location(1,:),K_location(2,:),'g');hold off;
 axis([cordinatex-100 cordinatex+200 cordinatey-200 cordinatey+100]),grid on;
-legend('观测轨迹','目标滤波航迹');
+xlabel('x', 'FontSize', 20); ylabel('y', 'FontSize', 20);
+legend('真实轨迹','观测轨迹','目标滤波航迹');
 axis equal;
 
     
