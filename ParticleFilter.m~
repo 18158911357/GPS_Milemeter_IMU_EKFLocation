@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%程序初始化操作%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function PCenter=ParticleFilter()
-% clc;
-% clear;
-% close all;
+clc;
+clear;
+close all;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%全局变量定义%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-outdoor_sensor_data=361;
+outdoor_sensor_data=370;
 indoor_sensor_data=0;
 sensor_data=outdoor_sensor_data+indoor_sensor_data;
 d=0.1;%标准差
@@ -126,13 +126,13 @@ for k = 2 : sensor_data
 %     pause(0.1);
 end
 %%
-% figure(3);
-% set(gca,'FontSize',12);
-% [groundtruthx,groundtruthy]=Groud_Truth();
-% plot(groundtruthx,groundtruthy,'r');hold on;
-% plot( ZIN(1,1:153), ZIN(2,1:153), 'o');hold on;
-% plot(PCenter(1,:), PCenter(2,:), 'g');hold off;
-% axis([cordinatex-100 cordinatex+200 cordinatey-200 cordinatey+100]),grid on;
-% legend('真实轨迹','观测轨迹', '粒子滤波轨迹');
-% xlabel('x', 'FontSize', 20); ylabel('y', 'FontSize', 20);
-% axis equal;
+figure(3);
+set(gca,'FontSize',12);
+[groundtruthx,groundtruthy]=Groud_Truth();
+plot(groundtruthx,groundtruthy,'r');hold on;
+plot( ZIN(1,:), ZIN(2,:), '>');hold on;
+plot(PCenter(1,:), PCenter(2,:), 'g');hold off;
+axis([cordinatex-100 cordinatex+200 cordinatey-200 cordinatey+100]),grid on;
+legend('真实轨迹','观测轨迹', '粒子滤波轨迹');
+xlabel('x', 'FontSize', 20); ylabel('y', 'FontSize', 20);
+axis equal;

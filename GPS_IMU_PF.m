@@ -1,8 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%程序初始化操作%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function PCenter=ParticleFilter()
 % clc;
 % clear;
 % close all;
+function PCenter = GPS_IMU_PF()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%全局变量定义%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 outdoor_sensor_data=361;
 indoor_sensor_data=0;
@@ -24,7 +24,7 @@ for n=1:sensor_data
    if(isempty(data))
        break;
    end
-        result=lonLat2Mercator(data(6,1),data(5,1));
+        result=lonLat2Mercator(data(2,1),data(1,1));
         gx(n)=result.X;%GPS经过坐标变换后的东向坐标，换算成米数
         gy(n)=result.Y;%GPS经过坐标变换后的北向坐标，换算成米数
         Phi(n)=(data(3,1)+90)*pi/180;%航向角
@@ -130,7 +130,7 @@ end
 % set(gca,'FontSize',12);
 % [groundtruthx,groundtruthy]=Groud_Truth();
 % plot(groundtruthx,groundtruthy,'r');hold on;
-% plot( ZIN(1,1:153), ZIN(2,1:153), 'o');hold on;
+% plot( ZIN(1,:), ZIN(2,:), '>');hold on;
 % plot(PCenter(1,:), PCenter(2,:), 'g');hold off;
 % axis([cordinatex-100 cordinatex+200 cordinatey-200 cordinatey+100]),grid on;
 % legend('真实轨迹','观测轨迹', '粒子滤波轨迹');
