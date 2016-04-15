@@ -4,30 +4,35 @@ clear;
 close all;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%全局变量定义%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-outdoor_sensor_data=300;
-indoor_sensor_data=0;
+outdoor_sensor_data=0;
+indoor_sensor_data=110;
 sensor_data=outdoor_sensor_data+indoor_sensor_data;
 d=0.1;%标准差
 Theta=CreateGauss(0,d,1,sensor_data);%GPS航迹和DR航迹的夹角
 ZOUT=zeros(4,outdoor_sensor_data);
 ZIN=zeros(4,indoor_sensor_data);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%读取传感器数据%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-fgps=fopen('sensor_data.txt','r');%%%打开文本
+fgps=fopen('beacon_data.txt','r');%%%打开文本
 
 for n=1:sensor_data
     gpsline=fgetl(fgps);%%%读取文本指针对应的行
     if ~ischar(gpsline) break;%%%判断是否结束
     end;
     %%%%读取室内数据
-   time=sscanf(gpsline,'[Info] 2016-03-25%s(ViewController.m:%d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
-   data=sscanf(gpsline,'[Info] 2016-03-25 %*s (ViewController.m:%*d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f');
+   time=sscanf(gpsline,'[Info] 2016-04-01%s(ViewController.m:%d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f;beacon_lat:%f;beacon_lon:%f');
+   data=sscanf(gpsline,'[Info] 2016-04-01 %*s (ViewController.m:%*d)-[ViewController outputAccelertion:]:lat:%f;lon:%f;heading:%f;distance:%f;beacon_lat:%f;beacon_lon:%f');
    if(isempty(data))
        break;
    end
-        result=lonLat2Mercator(data(2,1),data(1,1));
+        result=lonLat2Mercator(data(6,1),data(5,1));
         gx(n)=result.X;%GPS经过坐标变换后的东向坐标，换算成米数
         gy(n)=result.Y;%GPS经过坐标变换后的北向坐标，换算成米数
-        Phi(n)=data(3,1)*pi/180;%航向角
+        if(n<=70)Phi(n)=250*pi/180;
+        end
+        if(n<=100 && n>=70)Phi(n)=340*pi/180;
+        end
+        if(n<=110 && n>=100)Phi(n)=340*pi/180;
+        end
         dd(n)=data(4,1);%某一周期的位移
         ZIN(:,n)=[gx(n),gy(n),Phi(n),dd(n)];
 end
